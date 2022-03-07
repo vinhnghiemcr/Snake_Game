@@ -8,7 +8,7 @@ let snake = []
 let direction = 'D' //Initial direction of snake is downward 
 let isGrowing = false
 let food = []
-const milliseconds = 1000
+const milliseconds = 500
 let itervalID 
 
 
@@ -55,14 +55,35 @@ const generateSnake = () => {
 
 // Update the snake
 const updateSnake = () => {
+    
     switch (direction) {
-        case 'D': snake.unshift(new Array(snake[0][0] + 1, snake[0][1]))
+        case 'D': 
+            if (snake[0][0] + 1 > rows - 1) {
+                snake.unshift(new Array(0, snake[0][1]))
+            } else{
+                snake.unshift(new Array(snake[0][0] + 1, snake[0][1]))
+            }            
             break
-        case 'U': snake.unshift(new Array(snake[0][0] - 1, snake[0][1]))
+        case 'U': 
+            if (snake[0][0] - 1 < 0) {
+                snake.unshift(new Array(rows - 1, snake[0][1]))
+            } else {
+                snake.unshift(new Array(snake[0][0] - 1, snake[0][1]))
+            }        
             break
-        case 'L': snake.unshift(new Array(snake[0][0], snake[0][1] - 1))
+        case 'L': 
+            if (snake[0][1] - 1 < 0) {
+                snake.unshift(new Array(snake[0][0], columns - 1))
+            } else {
+                snake.unshift(new Array(snake[0][0], snake[0][1] - 1))
+            }        
             break
-        case 'R': snake.unshift(new Array(snake[0][0], snake[0][1] + 1))
+        case 'R': 
+            if (snake[0][1] + 1 > columns -1) {
+                snake.unshift(new Array(snake[0][0], 0))
+            } else {
+                snake.unshift(new Array(snake[0][0], snake[0][1] + 1))
+            }            
     }
     if (food[0] === snake[0][0] && food[1] === snake[0][1]) {
         document.querySelector(`.R${food[0]}.C${food[1]}`).classList.remove('food')
@@ -91,7 +112,7 @@ const generateFood = () => {
         randomRow = Math.floor(Math.random() * rows)
         randomColumn = Math.floor(Math.random() * columns)
     } while (isInSnake(randomRow, randomColumn))
-    
+
     food[0] = randomRow
     food[1] = randomColumn
     const foodCell = document.querySelector(`.R${food[0]}.C${food[1]}`)
