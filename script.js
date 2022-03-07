@@ -3,7 +3,7 @@ const container = document.querySelector('#container')
 let rows = 10
 let columns = 10
 let snake = []
-let direction = 'R' //Initial direction of snake is downward 
+let direction = 'D' //Initial direction of snake is downward 
 const milliseconds = 2000
 let itervalID 
 
@@ -33,10 +33,6 @@ const generateGrid = () => {
 
 // Display the snake to the html
 const displaySnake = () => {
-    // for (let i = 0; i<snake.length; i++){     
-    //     const snakeCell = document.querySelector(`.R${snake[i][0]}.C${snake[i][1]}`)        
-    //     snakeCell.classList.add('snake')
-    // }
     const boardCells = document.querySelectorAll('#container div')
     boardCells.forEach(element => {
         element.classList.remove('snake')
@@ -76,14 +72,36 @@ const moveSnake = () => {
 //------------
 //Add event listeners
 
+//Detect if player click on the game board to start the game
+container.addEventListener('click', () => {
+    generateSnake()
+    moveSnake()
+})
+//Detecting the Up, Down, Left, Right keyboards pressed
+document.onkeydown = (event) => {
+    switch (event.keyCode) {
+        case 37: if (direction !== 'R') {
+            direction = 'L'}
+        break
+        case 38: if (direction !== 'D'){
+            direction = 'U'
+        }
+        break
+        case 39: if (direction !== 'L'){
+            direction = 'R'
+        }
+        break
+        case 40: if (direction !== 'U'){
+            direction = 'D'
+        }
+        break
+    }
+}
 
 
 //------------
 //Game body
 const gameBoard = generateGrid()
-generateSnake()
 
-
-moveSnake()
 
     
