@@ -8,7 +8,7 @@ let snake = []
 let direction = 'D' //Initial direction of snake is downward 
 let isGrowing = false
 let food = []
-const milliseconds = 2000
+const milliseconds = 1000
 let itervalID 
 
 
@@ -63,14 +63,24 @@ const updateSnake = () => {
         case 'L': snake.unshift(new Array(snake[0][0], snake[0][1] - 1))
             break
         case 'R': snake.unshift(new Array(snake[0][0], snake[0][1] + 1))
-    }    
-    snake.pop()
+    }
+    if (food[0] === snake[0][0] && food[1] === snake[0][1]) {
+        document.querySelector(`.R${food[0]}.C${food[1]}`).classList.remove('food')
+        generateFood()
+    }  else {
+        snake.pop()
+    }
     displaySnake() 
 }
 
 //Move the snake
 const moveSnake = () => {
     intervalID = setInterval(updateSnake, milliseconds)
+}
+
+// Check if a cell is in the snake array
+const isInSnake = (row, column) => {
+    return snake.some(item => item[0] === row && item[1] === column)
 }
 
 // Generate the food for snake
@@ -80,7 +90,8 @@ const generateFood = () => {
     do {
         randomRow = Math.floor(Math.random() * rows)
         randomColumn = Math.floor(Math.random() * columns)
-    } while (snake.includes([randomRow, randomColumn]))
+    } while (isInSnake(randomRow, randomColumn))
+    
     food[0] = randomRow
     food[1] = randomColumn
     const foodCell = document.querySelector(`.R${food[0]}.C${food[1]}`)
