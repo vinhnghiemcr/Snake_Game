@@ -1,9 +1,13 @@
 // Global variable
 const container = document.querySelector('#container')
+let boardCells
+
 let rows = 10
 let columns = 10
 let snake = []
 let direction = 'D' //Initial direction of snake is downward 
+let isGrowing = false
+let food = []
 const milliseconds = 2000
 let itervalID 
 
@@ -14,7 +18,7 @@ let itervalID
 const generateGameBoard = () => {
     return new  Array(rows).fill(null).map(() => new Array(columns).fill(null))
 }
-const gameBoardArr = generateGameBoard()
+
 //Create the grid of div representing the game Board
 const generateGrid = () => {
     container.style.display = 'grid'
@@ -33,7 +37,7 @@ const generateGrid = () => {
 
 // Display the snake to the html
 const displaySnake = () => {
-    const boardCells = document.querySelectorAll('#container div')
+    // boardCells = document.querySelectorAll('#container div')
     boardCells.forEach(element => {
         element.classList.remove('snake')
     })
@@ -69,13 +73,29 @@ const moveSnake = () => {
     intervalID = setInterval(updateSnake, milliseconds)
 }
 
+// Generate the food for snake
+const generateFood = () => {
+    let randomRow 
+    let randomColumn 
+    do {
+        randomRow = Math.floor(Math.random() * rows)
+        randomColumn = Math.floor(Math.random() * columns)
+    } while (snake.includes([randomRow, randomColumn]))
+    food[0] = randomRow
+    food[1] = randomColumn
+    const foodCell = document.querySelector(`.R${food[0]}.C${food[1]}`)
+    foodCell.classList.add('food')
+}
+
 //------------
 //Add event listeners
 
 //Detect if player click on the game board to start the game
 container.addEventListener('click', () => {
     generateSnake()
+    generateFood()
     moveSnake()
+    
 })
 //Detecting the Up, Down, Left, Right keyboards pressed
 document.onkeydown = (event) => {
@@ -101,7 +121,9 @@ document.onkeydown = (event) => {
 
 //------------
 //Game body
+const gameBoardArr = generateGameBoard()
 const gameBoard = generateGrid()
+boardCells = document.querySelectorAll('#container div')
 
 
     
