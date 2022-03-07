@@ -1,5 +1,7 @@
 // Global variable
 const container = document.querySelector('#container')
+const scoreEle = document.querySelector('.score')
+const highestScoreElm = document.querySelector('.highestScore')
 let boardCells
 
 let rows = 10
@@ -10,7 +12,8 @@ let isGrowing = false
 let food = []
 const milliseconds = 500
 let itervalID 
-
+let score = 0
+let highestScore = 0
 
 
 //------------
@@ -53,6 +56,16 @@ const generateSnake = () => {
     displaySnake()
 }
 
+//Update the score
+const updateScore = () => {
+    score++
+    scoreEle.innerHTML = `Now: ${score}`
+    if (highestScore < score) {
+        highestScore = score
+        highestScoreElm.innerHTML = `Best: ${highestScore}`
+    }
+}
+
 // Update the snake
 const updateSnake = () => {
     
@@ -88,6 +101,7 @@ const updateSnake = () => {
     if (food[0] === snake[0][0] && food[1] === snake[0][1]) {
         document.querySelector(`.R${food[0]}.C${food[1]}`).classList.remove('food')
         generateFood()
+        updateScore()
     }  else {
         snake.pop()
     }
