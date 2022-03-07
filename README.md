@@ -4,7 +4,7 @@
 
 ### By: Nghiem Truong
 
-### [LinkedIn](https://www.linkedin.com/in/nghiem-v-truong/) | [GitHub](https://github.com/vinhnghiemcr)
+### [LinkedIn](https://www.linkedin.com/in/nghiem-v-truong/) | [GitHub](https://github.com/vinhnghiemcr) | [Trello](https://trello.com/b/MZAdbEZU/snakegame)
 
 ---
 
@@ -14,7 +14,7 @@ Snake game is a pesonal project based on JavaScript. It starts out a a baby snak
 
 ---
 
-### **_Progamming Language Used_**
+### **_Programming Languages Used_**
 
 - HTML
 - CSS
@@ -22,27 +22,14 @@ Snake game is a pesonal project based on JavaScript. It starts out a a baby snak
 
 ---
 
-### **_Screenshots_**
-
-<!-- Image 1
-![Image 1](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.R3IAG0Z7SAzTV56Xuvs1LwHaFj%26pid%3DApi&f=1)
-
-Image 2
-![Image 2](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.PqJHZqetkjwmgeA4qr7k1gHaE3%26pid%3DApi&f=1)
-
-Image 3
-![Image](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.O9RlOK12k-P6Ciogts-ykAHaEK%26pid%3DApi&f=1) -->
-
----
-
-### **_Task List_**
+### **_How to Get Started_**
 
 - [ ] Create a game board
 - [ ] Create game's rules
 - [ ] Create snake
-- [] Snake's movement
+- [ ] Snake's movement
 - [ ] Control snake's direction
-- [ ] Create food as read dot
+- [ ] Create food as red dot
 - [ ] Snake grows when eat the food
 - [ ] Display score
 - [ ] Game stop condition
