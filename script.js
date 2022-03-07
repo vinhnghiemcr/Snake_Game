@@ -3,6 +3,7 @@ const container = document.querySelector('#container')
 let rows = 10
 let columns = 10
 let snake = []
+let direction = 'R' //Initial direction of snake is downward 
 const milliseconds = 2000
 let itervalID 
 
@@ -50,19 +51,27 @@ const displaySnake = () => {
 const generateSnake = () => {
     snake.push(new Array(0, columns / 2))
     displaySnake()
-
 }
 
 // Update the snake
 const updateSnake = () => {
-    // snake.push(new Array(snake[snake.length-1][0] +1, snake[snake.length -1][1]))
-    snake.unshift(new Array(snake[0][0] + 1, snake[0][1]))
+    switch (direction) {
+        case 'D': snake.unshift(new Array(snake[0][0] + 1, snake[0][1]))
+            break
+        case 'U': snake.unshift(new Array(snake[0][0] - 1, snake[0][1]))
+            break
+        case 'L': snake.unshift(new Array(snake[0][0], snake[0][1] - 1))
+            break
+        case 'R': snake.unshift(new Array(snake[0][0], snake[0][1] + 1))
+    }    
     snake.pop()
-    displaySnake()
-    console.log(snake);
-    
+    displaySnake() 
 }
 
+//Move the snake
+const moveSnake = () => {
+    intervalID = setInterval(updateSnake, milliseconds)
+}
 
 //------------
 //Add event listeners
@@ -73,10 +82,8 @@ const updateSnake = () => {
 //Game body
 const gameBoard = generateGrid()
 generateSnake()
-let i = 0
-const run = () => {
-    intervalID = setInterval(updateSnake, milliseconds)
-}
-run()
+
+
+moveSnake()
 
     
