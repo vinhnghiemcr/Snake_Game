@@ -10,18 +10,20 @@ let boardCells
 
 const audioWinning = new Audio('audios/mixkit-arcade-retro-run-sound-220.wav')
 
-const WIDTH = 1000
-let rows = 10
-let columns = 10
+// const WIDTH = 1000
+let rows = 20
+let columns = 20
 let snake = []
 let direction = 'D' //Initial direction of snake is downward 
 let isGrowing = false
 let food = []
-const milliseconds = 500
+const milliseconds = 500 //0.5s
 let gameIntervalID 
 let score = 0
 let highestScore = 0
 let isPlaying = false
+
+
 
 
 //------------
@@ -32,17 +34,19 @@ let isPlaying = false
 
 //Create the grid of div representing the game Board
 const generateGrid = () => {
-    // container.style.display = 'grid'
-    // container.style.gridGap = '0'
-    // container.style.justifyContent = 'center'
     container.style.gridTemplateColumns = `repeat( ${columns}, 1fr )`
     container.style.gridTemplateRows = `repeat( ${rows}, 1fr )`    
     for (let i = 0; i < rows; i++) {     
         for (let j = 0; j< columns; j++) {
             const cell = document.createElement('div')
+            if ((i % 2 === 0 && j % 2 === 0) || (i % 2 !== 0 && j % 2 !== 0)) {
+                cell.classList.add('cellLightColor')
+            } else {
+                cell.classList.add('cellDarkColor')
+            }
             cell.style.margin = '0'
             cell.style.padding = '0'
-            cell.classList.add('cell' ,`R${i}`,  `C${j}`)
+            cell.classList.add(`R${i}`,  `C${j}`)
             container.append(cell)
         }
     }
@@ -51,8 +55,7 @@ const generateGrid = () => {
 
 
 // Display the snake to the html
-const displaySnake = () => {
-    // boardCells = document.querySelectorAll('#container div')
+const displaySnake = () => {    
     boardCells.forEach(element => {
         element.classList.remove('snake')
     })
@@ -85,7 +88,7 @@ const updateScore = () => {
 
 //Stop condition
 const gameStop = () => {    
-    // isPlaying = false
+    direction = 'D'
     clearInterval(gameIntervalID)
     audioElm.pause()
     audioWinning.play()
@@ -185,7 +188,9 @@ container.addEventListener('click', () => {
         generateFood()
         moveSnake()
         isPlaying = true
-        audioElm.play()
+        if (audioBtn.innerHTML === '') {
+            audioElm.play()
+        }
     }
     
 })
@@ -214,17 +219,27 @@ document.onkeydown = (event) => {
 
 //Turn on/off background music
 audioBtn.addEventListener('click' , () => {
-    audioElm.paused ? audioElm.play() : audioElm.pause()
-    audioBtn.innerHTML === '' ? audioBtn.innerHTML = 'X' : audioBtn.innerHTML = ''
+    if (audioElm.paused) {
+        audioElm.play()
+        audioBtn.innerHTML = ''
+    } else {
+        audioElm.pause()
+        audioBtn.innerHTML = 'X'
+    }    
 })
 
 // Play-again Option
 playAgainBtn.addEventListener('click', () => {
     if (isPlaying) {
+    //     direction = 'D'
+    // clearInterval(gameIntervalID)
+    // audioElm.pause()
+    // audioWinning.play()
+        gameStop()
         isPlaying = false
         snake = []
         food = []
-        audioElm.pause()
+        // audioElm.pause()
         container.innerHTML = ''
         generateGrid()
         boardCells = document.querySelectorAll('#container div')
@@ -238,10 +253,10 @@ playAgainBtn.addEventListener('click', () => {
 //Game body
 generateGrid()
 boardCells = document.querySelectorAll('#container div')
-boardCells.forEach(cell => {
-    cell.style.width = WIDTH / columns
-    cell.style.height = WIDTH / rows
-})
+// boardCells.forEach(cell => {
+//     cell.style.width = WIDTH / columns
+//     cell.style.height = WIDTH / rows
+// })
 
 
     
