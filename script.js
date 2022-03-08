@@ -11,16 +11,17 @@ let direction = 'D' //Initial direction of snake is downward
 let isGrowing = false
 let food = []
 const milliseconds = 500
-let itervalID 
+let gameIntervalID 
 let score = 0
 let highestScore = 0
+let isPlaying = false
 
 
 //------------
 //Functions
-const generateGameBoard = () => {
-    return new  Array(rows).fill(null).map(() => new Array(columns).fill(null))
-}
+// const generateGameBoard = () => {
+//     return new  Array(rows).fill(null).map(() => new Array(columns).fill(null))
+// }
 
 //Create the grid of div representing the game Board
 const generateGrid = () => {
@@ -50,6 +51,11 @@ const displaySnake = () => {
     })
 }
 
+// Check if a cell is in the snake array
+const isInSnake = (row, column) => {
+    return snake.some(item => item[0] === row && item[1] === column)
+}
+
 // Generate the snake
 const generateSnake = () => {
     snake.push(new Array(0, columns / 2))
@@ -66,57 +72,80 @@ const updateScore = () => {
     }
 }
 
+//Stop condition
+const gameStop = () => {    
+    // isPlaying = false
+    clearInterval(gameIntervalID)
+    //animation
+}
+
 // Update the snake
 const updateSnake = () => {
     
     switch (direction) {
         case 'D': 
             if (snake[0][0] + 1 > rows - 1) {
-                snake.unshift(new Array(0, snake[0][1]))
+                if (isInSnake(0, snake[0][1])) {
+                    gameStop()
+                } else snake.unshift(new Array(0, snake[0][1]))
             } else{
-                snake.unshift(new Array(snake[0][0] + 1, snake[0][1]))
+                if (isInSnake(snake[0][0] + 1, snake[0][1])) {
+                    gameStop()
+                } else snake.unshift(new Array(snake[0][0] + 1, snake[0][1]))
             }            
             break
         case 'U': 
             if (snake[0][0] - 1 < 0) {
-                snake.unshift(new Array(rows - 1, snake[0][1]))
+                if (isInSnake(rows - 1, snake[0][1])) {
+                    gameStop()
+                } else snake.unshift(new Array(rows - 1, snake[0][1]))
             } else {
-                snake.unshift(new Array(snake[0][0] - 1, snake[0][1]))
+                if (isInSnake(snake[0][0] - 1, snake[0][1])) {
+                    gameStop()
+                } else snake.unshift(new Array(snake[0][0] - 1, snake[0][1]))
             }        
             break
         case 'L': 
             if (snake[0][1] - 1 < 0) {
-                snake.unshift(new Array(snake[0][0], columns - 1))
+                if (isInSnake(snake[0][0], columns - 1)) {
+                    gameStop()
+                } else snake.unshift(new Array(snake[0][0], columns - 1))
             } else {
-                snake.unshift(new Array(snake[0][0], snake[0][1] - 1))
+                if (isInSnake(snake[0][0], snake[0][1] - 1)) {
+                    gameStop()
+                } else snake.unshift(new Array(snake[0][0], snake[0][1] - 1))
             }        
             break
         case 'R': 
             if (snake[0][1] + 1 > columns -1) {
-                snake.unshift(new Array(snake[0][0], 0))
+                if (isInSnake(snake[0][0], 0)) {
+                    gameStop()
+                } else snake.unshift(new Array(snake[0][0], 0))
             } else {
-                snake.unshift(new Array(snake[0][0], snake[0][1] + 1))
-            }            
+                if (isInSnake(snake[0][0], snake[0][1] + 1)) {
+                    gameStop()
+                } else snake.unshift(new Array(snake[0][0], snake[0][1] + 1))
+            }
+            break            
     }
-    if (food[0] === snake[0][0] && food[1] === snake[0][1]) {
-        document.querySelector(`.R${food[0]}.C${food[1]}`).classList.remove('food')
-        generateFood()
-        updateScore()
-    }  else {
-        snake.pop()
+    if (isPlaying) {
+        if (food[0] === snake[0][0] && food[1] === snake[0][1]) {
+            document.querySelector(`.R${food[0]}.C${food[1]}`).classList.remove('food')
+            generateFood()
+            updateScore()
+        }  else {
+            snake.pop()
+        }
+        displaySnake() 
     }
-    displaySnake() 
 }
 
 //Move the snake
 const moveSnake = () => {
-    intervalID = setInterval(updateSnake, milliseconds)
+    gameIntervalID = setInterval(updateSnake, milliseconds)
 }
 
-// Check if a cell is in the snake array
-const isInSnake = (row, column) => {
-    return snake.some(item => item[0] === row && item[1] === column)
-}
+
 
 // Generate the food for snake
 const generateFood = () => {
@@ -138,36 +167,41 @@ const generateFood = () => {
 
 //Detect if player click on the game board to start the game
 container.addEventListener('click', () => {
-    generateSnake()
-    generateFood()
-    moveSnake()
+    if (!isPlaying) {
+        generateSnake()
+        generateFood()
+        moveSnake()
+        isPlaying = true
+    }
     
 })
 //Detecting the Up, Down, Left, Right keyboards pressed
 document.onkeydown = (event) => {
-    switch (event.keyCode) {
-        case 37: if (direction !== 'R') {
-            direction = 'L'}
-        break
-        case 38: if (direction !== 'D'){
-            direction = 'U'
+    if (isPlaying){
+        switch (event.keyCode) {
+            case 37: if (direction !== 'R') {
+                direction = 'L'}
+            break
+            case 38: if (direction !== 'D'){
+                direction = 'U'
+            }
+            break
+            case 39: if (direction !== 'L'){
+                direction = 'R'
+            }
+            break
+            case 40: if (direction !== 'U'){
+                direction = 'D'
+            }
+            break
         }
-        break
-        case 39: if (direction !== 'L'){
-            direction = 'R'
-        }
-        break
-        case 40: if (direction !== 'U'){
-            direction = 'D'
-        }
-        break
     }
 }
 
 
 //------------
 //Game body
-const gameBoardArr = generateGameBoard()
+// const gameBoardArr = generateGameBoard()
 const gameBoard = generateGrid()
 boardCells = document.querySelectorAll('#container div')
 
