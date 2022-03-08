@@ -5,19 +5,23 @@ const highestScoreElm = document.querySelector('.highestScore')
 const audioBtn = document.querySelector('.audio')
 const audioElm = document.querySelector('audio')
 const playAgainBtn = document.querySelector('.play-again')
+const level1Btn = document.querySelector('#level1')
+const level2Btn = document.querySelector('#level2')
+const level3Btn = document.querySelector('#level3')
 let boardCells
 
 
 const audioWinning = new Audio('audios/mixkit-arcade-retro-run-sound-220.wav')
 
 // const WIDTH = 1000
-let rows = 20
-let columns = 20
+let rows = 10
+let columns = 10
+let milliseconds = 500 //0.5s
 let snake = []
 let direction = 'D' //Initial direction of snake is downward 
 let isGrowing = false
 let food = []
-const milliseconds = 500 //0.5s
+
 let gameIntervalID 
 let score = 0
 let highestScore = 0
@@ -93,10 +97,13 @@ const gameStop = () => {
     audioElm.pause()
     audioWinning.play()
     //animation
+    const body = document.querySelector('body')
+    body.classList.add('snake-animation')
     snake.forEach(item => {
         const snakeCell = document.querySelector(`.R${item[0]}.C${item[1]}`)
         snakeCell.classList.add('snake-animation')
     })
+    body.classList.remove('snake-animation')
 }
 
 // Update the snake
@@ -165,8 +172,6 @@ const moveSnake = () => {
     gameIntervalID = setInterval(updateSnake, milliseconds)
 }
 
-
-
 // Generate the food for snake
 const generateFood = () => {
     let randomRow 
@@ -232,35 +237,59 @@ audioBtn.addEventListener('click' , () => {
     }    
 })
 
+//Initializing value
+const initializeValue = () => {
+    container.innerHTML = ''
+    
+    isPlaying = false
+    snake = []
+    food = []
+    direction = 'D'
+    clearInterval(gameIntervalID)
+    generateGrid()
+    boardCells = document.querySelectorAll('#container div')
+    score = -1
+    updateScore()
+}
+
+
 // Play-again Option
 playAgainBtn.addEventListener('click', () => {
-    if (isPlaying) {
-    //     direction = 'D'
-    // clearInterval(gameIntervalID)
-    // audioElm.pause()
-    // audioWinning.play()
-        gameStop()
-        isPlaying = false
-        snake = []
-        food = []
-        // audioElm.pause()
-        container.innerHTML = ''
-        generateGrid()
-        boardCells = document.querySelectorAll('#container div')
-        score = -1
-        updateScore()
-    }
+    if (isPlaying) {    
+        initializeValue()
+    }    
+})
+
+//Level 1 button
+level1Btn.addEventListener('click', () => {
+        rows = 10
+        columns = 10
+        milliseconds = 500
+        initializeValue()
+})
+
+//Level 2 button
+level2Btn.addEventListener('click', () => {
+        rows = 20
+        columns = 20
+        milliseconds = 200
+        initializeValue()
     
+})
+
+//Level 3 button
+level3Btn.addEventListener('click', () => {
+        rows = 50
+        columns = 50
+        milliseconds = 100
+        initializeValue()
 })
 
 //------------
 //Game body
 generateGrid()
 boardCells = document.querySelectorAll('#container div')
-// boardCells.forEach(cell => {
-//     cell.style.width = WIDTH / columns
-//     cell.style.height = WIDTH / rows
-// })
+
 
 
     
