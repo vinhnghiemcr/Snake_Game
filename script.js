@@ -93,6 +93,10 @@ const gameStop = () => {
     audioElm.pause()
     audioWinning.play()
     //animation
+    snake.forEach(item => {
+        const snakeCell = document.querySelector(`.R${item[0]}.C${item[1]}`)
+        snakeCell.classList.add('snake-animation')
+    })
 }
 
 // Update the snake
