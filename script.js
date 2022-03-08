@@ -2,8 +2,15 @@
 const container = document.querySelector('#container')
 const scoreEle = document.querySelector('.score')
 const highestScoreElm = document.querySelector('.highestScore')
+const audioBtn = document.querySelector('.audio')
+const audioElm = document.querySelector('audio')
+const playAgainBtn = document.querySelector('.play-again')
 let boardCells
 
+
+const audioWinning = new Audio('audios/mixkit-arcade-retro-run-sound-220.wav')
+
+const WIDTH = 1000
 let rows = 10
 let columns = 10
 let snake = []
@@ -25,12 +32,16 @@ let isPlaying = false
 
 //Create the grid of div representing the game Board
 const generateGrid = () => {
-    container.style.display = 'grid'
+    // container.style.display = 'grid'
+    // container.style.gridGap = '0'
+    // container.style.justifyContent = 'center'
     container.style.gridTemplateColumns = `repeat( ${columns}, 1fr )`
     container.style.gridTemplateRows = `repeat( ${rows}, 1fr )`    
     for (let i = 0; i < rows; i++) {     
         for (let j = 0; j< columns; j++) {
             const cell = document.createElement('div')
+            cell.style.margin = '0'
+            cell.style.padding = '0'
             cell.classList.add('cell' ,`R${i}`,  `C${j}`)
             container.append(cell)
         }
@@ -76,6 +87,8 @@ const updateScore = () => {
 const gameStop = () => {    
     // isPlaying = false
     clearInterval(gameIntervalID)
+    audioElm.pause()
+    audioWinning.play()
     //animation
 }
 
@@ -172,6 +185,7 @@ container.addEventListener('click', () => {
         generateFood()
         moveSnake()
         isPlaying = true
+        audioElm.play()
     }
     
 })
@@ -198,12 +212,36 @@ document.onkeydown = (event) => {
     }
 }
 
+//Turn on/off background music
+audioBtn.addEventListener('click' , () => {
+    audioElm.paused ? audioElm.play() : audioElm.pause()
+    audioBtn.innerHTML === '' ? audioBtn.innerHTML = 'X' : audioBtn.innerHTML = ''
+})
+
+// Play-again Option
+playAgainBtn.addEventListener('click', () => {
+    if (isPlaying) {
+        isPlaying = false
+        snake = []
+        food = []
+        audioElm.pause()
+        container.innerHTML = ''
+        generateGrid()
+        boardCells = document.querySelectorAll('#container div')
+        score = -1
+        updateScore()
+    }
+    
+})
 
 //------------
 //Game body
-// const gameBoardArr = generateGameBoard()
-const gameBoard = generateGrid()
+generateGrid()
 boardCells = document.querySelectorAll('#container div')
+boardCells.forEach(cell => {
+    cell.style.width = WIDTH / columns
+    cell.style.height = WIDTH / rows
+})
 
 
     
