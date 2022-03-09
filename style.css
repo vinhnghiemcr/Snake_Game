@@ -120,14 +120,14 @@ button:hover {
   margin: 20px 0;
 }
 
-.left {
-  display: flex;
-  flex-direction: column;
-}
 .left,
 .right {
+  display: flex;
+  flex-direction: column;
+
   margin: 20px;
 }
+
 /* -----------------index.html-------------------- */
 #body-index {
   background-image: url("images/WallpaperDog-10942361.jpg");
@@ -153,6 +153,7 @@ h1 {
   color: black;
   transition: all 0.2s;
   background-color: aqua;
+  margin: 30px 100px;
 }
 #play-button:hover {
   background-color: #a9a9a9;
@@ -162,6 +163,6 @@ h1 {
 
 #body-index div {
   color: white;
-  margin: 30px 0;
+  margin: 30px 100px;
   font-family: "Syne Mono", monospace;
 }
