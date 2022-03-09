@@ -33,6 +33,7 @@ Snake game is a pesonal project based on JavaScript. It starts out a a baby snak
 - [x] Snake grows when eat the food
 - [x] Display score
 - [x] Game's stopping condition
+- [x] Multiple levels
 
 ---
 

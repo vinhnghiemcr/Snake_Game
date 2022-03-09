@@ -2,7 +2,7 @@
 const container = document.querySelector('#container')
 const scoreEle = document.querySelector('.score')
 const highestScoreElm = document.querySelector('.highestScore')
-const audioBtn = document.querySelector('.audio')
+const audioBtn = document.querySelector('.audio-btn')
 const audioElm = document.querySelector('audio')
 const playAgainBtn = document.querySelector('.play-again')
 const level1Btn = document.querySelector('#level1')
@@ -32,9 +32,6 @@ let isPlaying = false
 
 //------------
 //Functions
-// const generateGameBoard = () => {
-//     return new  Array(rows).fill(null).map(() => new Array(columns).fill(null))
-// }
 
 //Create the grid of div representing the game Board
 const generateGrid = () => {
@@ -54,7 +51,6 @@ const generateGrid = () => {
             container.append(cell)
         }
     }
-    return container
 }
 
 
@@ -97,13 +93,10 @@ const gameStop = () => {
     audioElm.pause()
     audioWinning.play()
     //animation
-    const body = document.querySelector('body')
-    body.classList.add('snake-animation')
     snake.forEach(item => {
         const snakeCell = document.querySelector(`.R${item[0]}.C${item[1]}`)
         snakeCell.classList.add('snake-animation')
     })
-    body.classList.remove('snake-animation')
 }
 
 // Update the snake
@@ -239,8 +232,7 @@ audioBtn.addEventListener('click' , () => {
 
 //Initializing value
 const initializeValue = () => {
-    container.innerHTML = ''
-    
+    container.innerHTML = ''    
     isPlaying = false
     snake = []
     food = []
@@ -273,8 +265,7 @@ level2Btn.addEventListener('click', () => {
         rows = 20
         columns = 20
         milliseconds = 200
-        initializeValue()
-    
+        initializeValue()    
 })
 
 //Level 3 button
@@ -286,7 +277,7 @@ level3Btn.addEventListener('click', () => {
 })
 
 //------------
-//Game body
+//Game starts
 generateGrid()
 boardCells = document.querySelectorAll('#container div')
 
