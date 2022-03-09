@@ -1,6 +1,6 @@
 # Snake_Game
 
-## Date: 3/6/2022
+## Date: 3/8/2022
 
 ### By: Nghiem Truong
 
@@ -24,20 +24,20 @@ Snake game is a pesonal project based on JavaScript. It starts out a a baby snak
 
 ### **_How to Get Started_**
 
-- [ ] Create a game board
-- [ ] Create game's rules
-- [ ] Create snake
-- [ ] Snake's movement
-- [ ] Control snake's direction
-- [ ] Create food as red dot
-- [ ] Snake grows when eat the food
-- [ ] Display score
-- [ ] Game stop condition
+- [x] Create a game board
+- [x] Create game's rules
+- [x] Create snake
+- [x] Snake's movement
+- [x] Control snake's direction
+- [x] Create food as red dot
+- [x] Snake grows when eat the food
+- [x] Display score
+- [x] Game's stopping condition
 
 ---
 
 ### **_Credits_**
 
-<!-- Cat Images: [DuckDuckGo](https://duckduckgo.com/?t=h_)<br />
-Markdown Guide: [ia.net](https://ia.net/writer/support/general/markdown-guide)<br />
-Markdown Cheatsheet: [GitHub](https://docs.github.com/en/rest/reference/markdown) -->
+Snake Photo: [Wallpaper](https://wallpaper.dog/snake)
+Background Music: [PlayOnLoop](PlayOnLoop.com)
+Winning Sound: [Mixkit](https://mixkit.co/)
