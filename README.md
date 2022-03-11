@@ -37,8 +37,15 @@ Snake game is a pesonal project based on JavaScript. It starts out a a baby snak
 
 ---
 
+### **_Demo_**
+
+<img src='https://github.com/vinhnghiemcr/Snake_Game/blob/main/Demo.gif?raw=true' />
+
+---
+
 ### **_Credits_**
 
 Snake Photo: [Wallpaper](https://wallpaper.dog/snake)
 Background Music: [PlayOnLoop](PlayOnLoop.com)
 Winning Sound: [Mixkit](https://mixkit.co/)
+GIF created with [LiceCap](http://www.cockos.com/licecap/).
