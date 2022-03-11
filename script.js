@@ -15,6 +15,7 @@ let boardCells
 
 
 const audioWinning = new Audio('audios/mixkit-arcade-retro-run-sound-220.wav')
+const audioEating = new Audio('audios/mixkit-arcade-retro-changing-tab-206-[AudioTrimmer.com].wav')
 
 
 let rows = 10
@@ -157,6 +158,7 @@ const updateSnake = () => {
             document.querySelector(`.R${food[0]}.C${food[1]}`).classList.remove('food')
             generateFood()
             updateScore()
+            audioEating.play()
         }  else {            
             snake.pop()
         }
