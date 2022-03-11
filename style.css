@@ -230,10 +230,10 @@ h1 {
 }
 
 .modal-content {
-  background-color: #fefefe;
+  background-color: #c47e7e;
   margin: 15% auto;
   padding: 20px;
-  border: 1px solid #888;
+  border: 3px solid #888;
   width: 80%;
 }
 

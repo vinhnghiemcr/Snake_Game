@@ -49,3 +49,4 @@ Snake Photo: [Wallpaper](https://wallpaper.dog/snake)
 Background Music: [PlayOnLoop](PlayOnLoop.com)
 Winning Sound: [Mixkit](https://mixkit.co/)
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
+Modal : [w3schools](https://www.w3schools.com/howto/howto_css_modals.asp)
