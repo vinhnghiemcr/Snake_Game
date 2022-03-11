@@ -9,6 +9,8 @@ const level1Btn = document.querySelector('#level1')
 const level2Btn = document.querySelector('#level2')
 const level3Btn = document.querySelector('#level3')
 const superBtn = document.querySelector('#super')
+const modal = document.querySelector("#myModal")
+const span = document.querySelector(".close")
 let boardCells
 
 
@@ -120,6 +122,7 @@ const gameStop = () => {
         cell.style.animationName = 'blink'
     })
     
+    setTimeout(() => {modal.style.display = "block"}, 2500)
 }
 
 // Update the snake
@@ -286,6 +289,15 @@ superBtn.addEventListener('click', () => {
     }
 })
 
+//Close motal
+span.onclick = () => {
+    modal.style.display = "none";
+  }
+  window.onclick = (event) => {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
 //------------
 //Game starts
 generateGrid()
