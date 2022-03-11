@@ -4,7 +4,7 @@
 
 ### By: Nghiem Truong
 
-### [LinkedIn](https://www.linkedin.com/in/nghiem-v-truong/) | [GitHub](https://github.com/vinhnghiemcr) | [Trello](https://trello.com/b/MZAdbEZU/snakegame)
+### [LinkedIn](https://www.linkedin.com/in/nghiem-v-truong/) | [GitHub](https://github.com/vinhnghiemcr) | [Trello](https://trello.com/b/MZAdbEZU/snakegame) | [Surge](https://nghiem-snake-game.surge.sh/)
 
 ---
 
