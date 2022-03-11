@@ -8,17 +8,19 @@ const playAgainBtn = document.querySelector('.play-again')
 const level1Btn = document.querySelector('#level1')
 const level2Btn = document.querySelector('#level2')
 const level3Btn = document.querySelector('#level3')
+const superBtn = document.querySelector('#super')
 let boardCells
 
 
 const audioWinning = new Audio('audios/mixkit-arcade-retro-run-sound-220.wav')
 
-// const WIDTH = 1000
+
 let rows = 10
 let columns = 10
 let milliseconds = 500 //0.5s
 let snake = []
-let direction = 'D' //Initial direction of snake is downward 
+let direction = 'D' 
+let currentDirec = 'D' //Initial direction of snake is downward 
 let isGrowing = false
 let food = []
 
@@ -27,6 +29,7 @@ let score = 0
 let highestScore = 0
 let isPlaying = false
 
+let level = 1
 
 
 
@@ -88,64 +91,62 @@ const updateScore = () => {
 
 //Stop condition
 const gameStop = () => {    
+    console.log('game stopped');
+    isPlaying = false
+    currentDirec = 'D'
     direction = 'D'
     clearInterval(gameIntervalID)
     audioElm.pause()
     audioWinning.play()
+    if (level === 1 && score > 5) {
+        level = 2
+        level2Btn.style.display = 'block'
+    } else if (level === 2 && score > 10) {
+        level = 3
+        level3Btn.style.display = 'block'
+    } else if (level === 3 && score > 15){
+        level = 4
+        superBtn.style.display = 'block'
+    }
+
     //animation
     snake.forEach(item => {
         const snakeCell = document.querySelector(`.R${item[0]}.C${item[1]}`)
         snakeCell.classList.add('snake-animation')
     })
+
+    boardCells.forEach(cell => {
+        if (!cell.classList.contains('snake'))
+        cell.style.animationName = 'blink'
+    })
+    
 }
 
 // Update the snake
 const updateSnake = () => {
-    
-    switch (direction) {
+    if (!((currentDirec === 'L' && direction === 'R') || (currentDirec === 'R' && direction === 'L') || (currentDirec === 'U' && direction === 'D') || (currentDirec === 'D' && direction === 'U'))) {
+        currentDirec = direction
+    }
+    switch (currentDirec) {
         case 'D': 
-            if (snake[0][0] + 1 > rows - 1) {
-                if (isInSnake(0, snake[0][1])) {
+            if (snake[0][0] + 1 > rows - 1 || isInSnake(snake[0][0] + 1, snake[0][1])) {
                     gameStop()
-                } else snake.unshift(new Array(0, snake[0][1]))
-            } else{
-                if (isInSnake(snake[0][0] + 1, snake[0][1])) {
-                    gameStop()
-                } else snake.unshift(new Array(snake[0][0] + 1, snake[0][1]))
-            }            
+                } else snake.unshift(new Array(snake[0][0] + 1, snake[0][1]))                       
             break
         case 'U': 
-            if (snake[0][0] - 1 < 0) {
-                if (isInSnake(rows - 1, snake[0][1])) {
+            if (snake[0][0] - 1 < 0 || isInSnake(snake[0][0] - 1, snake[0][1])) {
                     gameStop()
-                } else snake.unshift(new Array(rows - 1, snake[0][1]))
-            } else {
-                if (isInSnake(snake[0][0] - 1, snake[0][1])) {
-                    gameStop()
-                } else snake.unshift(new Array(snake[0][0] - 1, snake[0][1]))
-            }        
+                } else snake.unshift(new Array(snake[0][0] - 1, snake[0][1]))                
             break
         case 'L': 
-            if (snake[0][1] - 1 < 0) {
-                if (isInSnake(snake[0][0], columns - 1)) {
-                    gameStop()
-                } else snake.unshift(new Array(snake[0][0], columns - 1))
-            } else {
-                if (isInSnake(snake[0][0], snake[0][1] - 1)) {
+            if (snake[0][1] - 1 < 0 || isInSnake(snake[0][0], snake[0][1] - 1)) {
                     gameStop()
                 } else snake.unshift(new Array(snake[0][0], snake[0][1] - 1))
-            }        
             break
         case 'R': 
-            if (snake[0][1] + 1 > columns -1) {
-                if (isInSnake(snake[0][0], 0)) {
-                    gameStop()
-                } else snake.unshift(new Array(snake[0][0], 0))
-            } else {
-                if (isInSnake(snake[0][0], snake[0][1] + 1)) {
+            if (snake[0][1] + 1 > columns -1 || isInSnake(snake[0][0], snake[0][1] + 1)) {
                     gameStop()
                 } else snake.unshift(new Array(snake[0][0], snake[0][1] + 1))
-            }
             break            
     }
     if (isPlaying) {
@@ -153,11 +154,11 @@ const updateSnake = () => {
             document.querySelector(`.R${food[0]}.C${food[1]}`).classList.remove('food')
             generateFood()
             updateScore()
-        }  else {
+        }  else {            
             snake.pop()
         }
-        displaySnake() 
-    }
+    } 
+    displaySnake() 
 }
 
 //Move the snake
@@ -180,41 +181,36 @@ const generateFood = () => {
     foodCell.classList.add('food')
 }
 
+//Initializing value
+const initializeValue = () => {
+    container.innerHTML = ''    
+    isPlaying = false
+    snake = []
+    food = []
+    currentDirec = 'D'
+    clearInterval(gameIntervalID)
+    generateGrid()
+    boardCells = document.querySelectorAll('#container div')
+    score = -1
+    updateScore()
+}
+
 //------------
 //Add event listeners
 
-//Detect if player click on the game board to start the game
-container.addEventListener('click', () => {
-    if (!isPlaying) {
-        generateSnake()
-        generateFood()
-        moveSnake()
-        isPlaying = true
-        if (audioBtn.innerHTML === '') {
-            audioElm.play()
-        }
-    }
-    
-})
 //Detecting the Up, Down, Left, Right keyboards pressed
 document.onkeydown = (event) => {
     if (isPlaying){
         switch (event.keyCode) {
-            case 37: if (direction !== 'R') {
-                direction = 'L'}
+            case 37: direction = 'L'
             break
-            case 38: if (direction !== 'D'){
-                direction = 'U'
-            }
+            case 38: direction = 'U'
             break
-            case 39: if (direction !== 'L'){
-                direction = 'R'
-            }
+            case 39: direction = 'R'
             break
-            case 40: if (direction !== 'U'){
-                direction = 'D'
-            }
+            case 40: direction = 'D'
             break
+            default: break
         }
     }
 }
@@ -230,50 +226,64 @@ audioBtn.addEventListener('click' , () => {
     }    
 })
 
-//Initializing value
-const initializeValue = () => {
-    container.innerHTML = ''    
-    isPlaying = false
-    snake = []
-    food = []
-    direction = 'D'
-    clearInterval(gameIntervalID)
-    generateGrid()
-    boardCells = document.querySelectorAll('#container div')
-    score = -1
-    updateScore()
-}
-
 
 // Play-again Option
 playAgainBtn.addEventListener('click', () => {
-    if (isPlaying) {    
+    if (!isPlaying) {   
         initializeValue()
+        generateSnake()
+        generateFood()
+        moveSnake()
+        isPlaying = true
+        if (audioBtn.innerHTML === '') {
+            audioElm.play()
+        }
+        playAgainBtn.innerHTML = 'Play Again'
     }    
 })
 
 //Level 1 button
 level1Btn.addEventListener('click', () => {
+    if (!isPlaying) {  
         rows = 10
         columns = 10
         milliseconds = 500
         initializeValue()
+        playAgainBtn.innerHTML = 'Play'
+    }
 })
 
 //Level 2 button
 level2Btn.addEventListener('click', () => {
+    if (!isPlaying) {  
         rows = 20
         columns = 20
-        milliseconds = 200
+        milliseconds = 300
         initializeValue()    
+        playAgainBtn.innerHTML = 'Play'
+    }
 })
 
 //Level 3 button
 level3Btn.addEventListener('click', () => {
+    if (!isPlaying) {  
+        rows = 30
+        columns = 30
+        milliseconds = 200
+        initializeValue()
+        playAgainBtn.innerHTML = 'Play'
+    }
+})
+
+//Super button
+superBtn.addEventListener('click', () => {
+    if (!isPlaying) {  
         rows = 50
         columns = 50
         milliseconds = 100
         initializeValue()
+        playAgainBtn.innerHTML = 'Play'
+    }
 })
 
 //------------
